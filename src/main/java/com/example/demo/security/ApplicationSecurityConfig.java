@@ -30,7 +30,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter
         http
                 .authorizeRequests()
                 .antMatchers("/","index","/css/*", "/js/*").permitAll()
-                .antMatchers("api/**").hasRole(STUDENT.name())
+                .antMatchers("/ api/**").hasRole(STUDENT.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -53,9 +53,17 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter
                 .build();
 
 
+        UserDetails tomUser = User.builder()
+                .username("tom")
+                .password(passwordEncoder.encode("password123"))
+                .roles(ADMINTRAINEE.name()) //ROLE ADMIN TRAINEE
+                .build();
+
+
         return new InMemoryUserDetailsManager(
                 annahSmithUser,
-                lindaUser
+                lindaUser,
+                tomUser
         );
     }
 }
